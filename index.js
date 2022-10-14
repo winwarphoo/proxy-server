@@ -6,6 +6,7 @@ const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
 	max: 100,
 })
+require("dotenv").config();
 const url = require("url");
 
 app.get("/", (req, res) => {
@@ -15,7 +16,7 @@ app.get("/", (req, res) => {
 app.use("/world-weather", limiter, (req, res, next) => {
 	const city = req.query.city
 	createProxyMiddleware({
-		target: `https://api.weatherapi.com/v1/current.json?key=2dc5159ca1f2424599874900210112&q=${city}&aqi=no`,
+		target:`${process.env.BASE_API_URL_WORLD_WEATHER}?key=${process.env.API_KEY}&q=${city}&aqi=no`,
 		changeOrigin: true,
 		// pathRewrite: {
 		// 	[]: "",
